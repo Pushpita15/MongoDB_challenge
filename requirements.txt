@@ -1,0 +1,5 @@
+google_adk
+pymongo
+pandas
+matplotlib
+sentence_transformers
