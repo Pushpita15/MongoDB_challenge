@@ -27,4 +27,4 @@ sessions.db
 *.log
 
 # Environment variables
-.env
+*.env
