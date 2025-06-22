@@ -13,6 +13,8 @@ news_analyst = Agent(
     If the user asks for a specific topic, you should search for news articles related to that topic and provide a summary of the articles.
     
     If the user asks for a specific news article, you should search for that article and provide a summary of the article.
+
+    Display the summary of the result in the chat.
     """,
     tools=[google_search],
 )
