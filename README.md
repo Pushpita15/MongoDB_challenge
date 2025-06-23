@@ -14,26 +14,79 @@ This is the structure that is followed for the development of the multi-agent sy
 3. Importing sub agents
    This is important , as this will help the manager agent to use its aub agents
    we are doing
-   ![image](https://github.com/user-attachments/assets/37bfa4d0-4ee8-42e2-ace6-8d9394e7c195)
-   
+   ``` python from .sub_agents.analysis_sector_agent.agent import analysis_sector_agent
+       from .sub_agents.analysis_country_agent.agent import analysis_country_agent
+       from .sub_agents.news_analyst.agent import news_analyst
+   ```
+
 
 # Multi - agent architecture
 Using two different models
 1. Sub - agents delegtion model
    
-   ![image](https://github.com/user-attachments/assets/8f2efa18-2817-43f5-80b0-6238a832242b)
+  ```  python
+          root_agent = Agent(
+          name="manager",
+          model="gemini-2.0-flash",
+          description="Manager agent",
+          instruction="""
+          You are a manager agent that is responsible for overseeing the work of the other agents.
+      
+          Always delegate the task to the appropriate agent. Use your best judgement 
+          to determine which agent to delegate to.
+      
+          You are responsible for delegating tasks to the following agent:
+          - analyst_sector_agent
+          - analyst_country_agent
+      
+          You also have access to the following tools:
+          - news_analyst
+          
+          """,
+          sub_agents=[analysis_sector_agent, analysis_country_agent],
+   ```
 
 
 2. Agent-as-a-tool model
    
-   ![image](https://github.com/user-attachments/assets/e02b793a-0b4e-478d-88a3-56fccc54151c)
+  ``` python
+          root_agent = Agent(
+          name="manager",
+          model="gemini-2.0-flash",
+          description="Manager agent",
+          instruction="""
+          You are a manager agent that is responsible for overseeing the work of the other agents.
+      
+          Always delegate the task to the appropriate agent. Use your best judgement 
+          to determine which agent to delegate to.
+      
+          You are responsible for delegating tasks to the following agent:
+          - analyst_sector_agent
+          - analyst_country_agent
+      
+          You also have access to the following tools:
+          - news_analyst
+          
+          """,
+          sub_agents=[analysis_sector_agent, analysis_country_agent],
+          tools=[
+              AgentTool(news_analyst)
+              
+          ],
+   ```
 
 # Characteristic
 a. Sub-agent returns results to the root agent
 b. Root agent maintains control and can incorporate the sub-agent's response into its own.
 
 # Emission Analysis agent tool
-Has these three sub agents to perform different analysus tasks
+This multi agent system works with three specialised agents
+1. analysis_country_agent : This agent helps in analysing the carbon emission data across different countries.
+2. analysis_sector_agent : This agent helps in analysing the carbon emission data across different industrial sectors.
+3. news_analyst : Gets the latest news from different topics and also returns insights from that.
+
+# Cloud deployment
+This multi agent system is deployed in cloud using Google's Cloud run service,and it is available for public use.
 
 
 
