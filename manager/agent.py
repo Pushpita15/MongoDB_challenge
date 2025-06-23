@@ -26,6 +26,7 @@ root_agent = Agent(
 
     You also have access to the following tools:
     - news_analyst
+    If the user asks to get the latest news on any topic or article use the news_analyst tool to perform the task
     
     """,
     sub_agents=[analysis_sector_agent, analysis_country_agent],
