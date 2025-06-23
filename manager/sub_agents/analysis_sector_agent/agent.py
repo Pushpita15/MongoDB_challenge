@@ -43,7 +43,14 @@ def introduction_to_data() -> str:
     - 2022_YTD: Year-to-date total for 2022
     - 2021_YTD: Year-to-date total for 2021"""}
     
-    
+# This function will return a list of sectors available in the dataset
+def get_sector_list() -> str:
+    client = get_mongo_client()
+    sectors = client['CO2_Emission_data']['Emission_data_feb'].distinct('Sector_name')
+    sector_list = ["Here is the list of sectors available in the dataset:\n"]
+    for sector in sectors:
+        sector_list.append(sector+ "\n")
+    return {"result": "\n".join(sector_list)}
 # This function will return similar sectors based on the query provided by the user
 def find_similar_sectors(query:str)-> str:
 
@@ -304,69 +311,8 @@ def get_graph_report(sector_name:str, parameter:str )-> str:
         except RuntimeError as e:
             return f"Error generating or uploading image for {sector_name}: {e}"
         
-    #     plt.savefig(f"{sector_name}_CO2_Emissions.png")
-    #     plt.show()
-    #     image_filename = f"{sector_name}_CO2_Emissions.png"
-    #     image_path = os.path.abspath(image_filename)
-    # return f"Graph for {sector_name} sector saved. [View Graph]({image_path})"
 
-# def plot_emissions_trend(country: str) -> str:
-#     client = get_mongo_client()
-#     query_embedding = generate_embeddings(country)
-#     result = client['CO2_Emission_data']['Emission_data_feb_country'].aggregate([
-#             {
-#                 "$vectorSearch": {
-#                 "index": "vector_index_country",
-#                 "path": "embedding",
-#                 "queryVector": query_embedding,
-#                 "numCandidates": 1,
-#                 "limit": 1
-#             }
-#             },
-#             {
-#                 '$project': {
-#                     '_id': 0,
-#                     'Country': 1,
-#                     '2025_YTD': 1,
-#                     '2024_YTD': 1,
-#                     '2023_YTD': 1,
-#                     '2022_YTD': 1,
-#                     '2021_YTD': 1
-#                 }
-#             }
-#         ])
-#     country_data = pd.DataFrame(list(result))
-#     if country_data.empty:
-#         return {"error": "No data found for the specified country."}
-#     else: 
-#         plt.figure(figsize=(20,6))
-#         plt.plot(range(len(country_data.iloc[0, 1:])), country_data.iloc[0, 1:])
-#         plt.xticks(
-#             ticks = range(len(country_data.iloc[0, 1:])),
-#             labels = country_data.columns[1:],
-#             rotation = 45,
-#             ha = 'right'
-#         )
-#         plt.title(f"CO2 Emissions Trend for {country_data.iloc[0]['Country']}")
-#         plt.xlabel('Year')
-#         plt.ylabel('CO2 Emissions')
-#         plt.grid(True)
-#         plt.tight_layout()
 
-#         buf = io.BytesIO()
-#         plt.savefig(buf,format='png')
-#         buf.seek(0)
-#         plt.close()
-        
-#         # Upload the image from the buffer to GCS
-#         # Generate a unique filename using UUID
-#         unique_filename = f"{country.replace(' ', '_').lower()}_emissions_trend_{uuid.uuid4().hex}.png"
-#         try:
-#             image_url = _upload_to_gcs(buf.getvalue(), unique_filename)
-#             markdown_response = f"Here is the emissions trend for {country}:\n\n![CO2 Emissions Trend for {country}]({image_url})"
-#             return markdown_response # Return just the markdown string
-#         except RuntimeError as e:
-#             return f"Error generating or uploading image for {country}: {e}"
 
 
 
@@ -392,9 +338,12 @@ analysis_sector_agent = Agent(
     3. If the user asks for a report for a specific sector, you can use the get_sector_report function and show the report.
     4. If the user asks for a comparison between two sectors, you can use the compare_sectors function and show the comparison mentioning the values.
     5. If the user asks for a graph report, you can use the get_graph_report function and show the graph.
-    6. If the user asks for similar sectors, you can use the find_similar_sectors function and show the similar sectors.""",
-    tools=[introduction_to_data,find_similar_sectors,compare_sectors,get_sector_report,get_graph_report]
+    6. If the user asks for similar sectors, you can use the find_similar_sectors function and show the similar sectors.
+    7. If the user asks for an introduction to the data, you can use the introduction_to_data function and show the introduction.
+    8. If the user asks for a list of sectors, you can use the get_sector_list function and show the list of sectors.""",
+    tools=[introduction_to_data,find_similar_sectors,compare_sectors,get_sector_report,get_graph_report,get_sector_list]
 )
+
 
 
 
