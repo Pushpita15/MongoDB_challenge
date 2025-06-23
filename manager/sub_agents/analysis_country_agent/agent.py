@@ -234,8 +234,12 @@ analysis_country_agent  = Agent(
     2. You can use multiple tools in parallel by calling functions in parallel.
     3. If the user asks for similar country, you can use the find_similar_countries function and show the similar countries.
     4. If the user asks for a graph report, you can use the plot_emissions_trend function and show the graph.
+    5. If the user asks for an introduction to the dataset, you can use the introduction_to_data function and show the introduction.
+    6. If the user asks for a country report, you can use the get_country_report function and show the report.
+    7. If the user asks for a list of countries, you can use the find_country_list function and show the list.
     """,
-    tools=[introduction_to_data,find_similar_countries, plot_emissions_trend]
+    tools=[introduction_to_data,find_similar_countries, plot_emissions_trend,get_country_report,find_country_list]
 )
+
 
         
