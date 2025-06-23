@@ -21,8 +21,8 @@ root_agent = Agent(
     to determine which agent to delegate to.
 
     You are responsible for delegating tasks to the following agent:
-    - analyst_sector_agent
-    - analyst_country_agent
+    - analysis_sector_agent
+    - analysis_country_agent
 
     You also have access to the following tools:
     - news_analyst
