@@ -23,7 +23,15 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 def generate_embeddings(query:str) -> list:
     embeddings = model.encode(query).tolist()
     return embeddings
-
+    
+# This function will return the list of countries available in the dataset
+def find_country_list() -> str:
+    client = get_mongo_client()
+    result = client['CO2_Emission_data']['Emission_data_feb_country'].distinct('Country')
+    result_list = ["Here is the list of sectors available in the dataset:\n"]
+    for country in result:
+        result_list.append(country + "\n")
+    return {"result": "\n".join(result_list)}
 # This function will return an introduction to the dataset
 def introduction_to_data() -> str:
     return {"result":"""This dataset contains CO2 emissions data for various continents and their respenctive
