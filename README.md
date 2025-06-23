@@ -2,9 +2,28 @@
 This project aims to develop an agent that analyses Carbon emission data . The agent analyses the carbon emission from different industrial sectors and countries, and also it is capable of providing latest news on the carbon emission trend and analyse it further.
 # Project Structure
 This is the structure that is followed for the development of the multi-agent system.
-
-![image](https://github.com/user-attachments/assets/43eab7ef-f9b6-48ff-81a7-4856b3abc176)
-
+```
+    parent_folder\
+        |-----manager\
+                |-----sub_agents\
+                           |---analysis_country_agent\
+                                    |---__init__.py
+                                    |---.env
+                                    |---agent.py
+                           |---analysis_sector_agent\
+                                    |---__init__.py
+                                    |---.env
+                                    |---agent.py
+                           |---news_agent\
+                                    |---__init__.py
+                                    |---agent.py
+                |---__init__.py
+                |---.env
+                |---agent.py
+        |---Dockerfile
+        |---main.py
+        |---requirements.txt
+```
 
 # Essential Stricture Components
 1. Root agent folder (here manager)
