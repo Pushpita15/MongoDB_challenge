@@ -106,6 +106,54 @@ This multi agent system works with three specialised agents
 
 # Cloud deployment
 This multi agent system is deployed in cloud using Google's Cloud run service,and it is available for public use.
+# Architecture Diagram
+
+```
+┌─────────────────────────┐
+│       User Query        │
+└────────────┬────────────┘
+             	 ▼
+┌─────────────────────────┐
+│    Manager Agent (API)  │  ⇨ Parses query intent
+└────────────┬────────────┘
+     ┌───────▼───────────┐
+     │ Delegates Task To │
+     └───────┬───────────┘
+               ▼
+ ┌────────────────────────┬───────────────────────|
+ │                        		 │                        		│
+ ▼                        	 ▼                        	▼
+Sector Agent           Country Agent           		News Analyst Agent
+(fetch by sector)   (fetch by country)      		(semantic search on news)
+
+   │                        │                        			│
+   ▼                        ▼                        		▼
+┌────────────────────────────────────────────────────────────┐
+│                  MongoDB Atlas + Vector Index              │
+│   Stores CO₂ emissions + news embeddings for fast queries  │
+└────────────────────────────────────────────────────────────┘
+	     |
+             ▼
+    ┌────────────────────┐
+    │  Embedding Model   │  ⇨ Generates semantic vectors
+    └────────────────────┘
+	     |
+             ▼
+   ┌──────────────────────┐
+   │  Insights Generator  │  ⇨ Creates trends, graphs, reports
+   └────────┬─────────────┘
+              ▼
+  ┌────────────────────────────┐
+  │   Visualization Output     │  ⇨ (Planned: Image is saved in binary format and then stored in Google storage for viewing it in the chat)
+  └────────────────────────────┘
+	    |
+            ▼
+  ┌────────────────────────────┐
+  │    Google Cloud Run        │  ⇨ Hosts the entire pipeline
+  └────────────────────────────┘
+
+
+```
 
 
 
